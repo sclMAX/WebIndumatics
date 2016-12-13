@@ -1,0 +1,44 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/google-map/google-map.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="contacto-view">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      
+      google-map {
+        height: 200px;
+      }
+    </style>
+    <div class="card">
+        <h1>Formulario de Contacto</h1>
+        
+    </div>
+    <div class="card">
+      <h1>Donde estamos...</h1>
+      <google-map latitude="-31.7714249" longitude="-60.451027" api-key="AIzaSyDbbl5FVg_HyZMeFhm7Fb_fkHP_XgOj_lU" fitToMarkers="true">
+        <google-map-marker latitude="-31.7707106" longitude="-60.4526026" title="INDUMATICS S.A." icon="../images/favicon.ico">
+          <img src="../images/favicon.ico">
+          <h3>INDUMATICS S.A.</h3>
+        </google-map-marker>
+      </google-map>
+    </div>
+    <div class="card">
+      <h1>Datos de contacto</h1>
+      <p>
+        Telefonos: +54 4362033 / 4301014 / 4301016 <br>
+        <a href="mailto:perfiles@indumatics.com.ar">perfiles@indumatics.com.ar</a><br>
+        <a href="mailto:dptocomercial@indumatics.com.ar">dptocomercial@indumatics.com.ar</a>
+      </p>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'contacto-view'
+    });
+  </script>
+</dom-module>

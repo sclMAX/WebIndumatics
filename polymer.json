@@ -1,0 +1,20 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/indumatics-app.html",
+  "fragments": [
+    "src/laempresa-view.html",
+    "src/productos-view.html",
+    "src/contacto-view.html",
+    "src/rrhh-view.html",
+    "src/404-view.html"
+  ],
+  "sourceGlobs": [
+   "src/**/*",
+   "images/**/*",
+   "bower.json"
+  ],
+  "includeDependencies": [
+    "manifest.json",
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js"
+  ]
+}
