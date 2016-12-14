@@ -12,14 +12,22 @@
         height: 100%;
         --paper-slide-height: 100%;
       }
+      .imagen{
+        background-repeat: no-repeat;
+        background-size: inherit;
+        width:100%; 
+        height:600px;
+      }
     </style>
     <div class="card">
       <l2t-paper-slider auto-progress slide-duration="5" total-slides="{{_getArrayLength(sliders)}}">
         <template is="dom-repeat" items={{sliders}} as=item index-as=index>
           <paper-slide>
             <h1>{{item.titulo}}</h1>
-            <img src="{{item.image}}" alt="">
-            <div class="card">
+            <div class="card imagen" style="background-image:url({{item.image}});">
+            </div>
+           <!-- <img src="{{item.image}}" alt="">-->
+            <div class="card" style="background-clip: content-box;">
               <p style="width:500px">{{item.texto}}</p>
             </div>
           </paper-slide>
@@ -42,9 +50,9 @@
                   titulo:'Nuestra Visión', 
                   texto:'Ofrecer en toda la Argentina perfiles de aluminio, que den seguridad, fiabilidad y rentabilidad a nuestros Clientes, queriendo ser una referencia de su elección, marcando como objetivo ser su proveedor de excelencia.'
                 },
-                {image:'../images/la_empresa/slider1.svg', titulo:'Slider2', texto:'blablabla2'},
-                {image:'../images/la_empresa/slider1.svg', titulo:'Slider3', texto:'blablabla3'},
-                {image:'../images/la_empresa/slider1.svg', titulo:'Slider4', texto:'blablabla4'},
+                {image:'../images/la_empresa/slider2.jpg', titulo:'Slider2', texto:'blablabla2'},
+                {image:'../images/la_empresa/slider3.jpg', titulo:'Slider3', texto:'blablabla3'},
+                {image:'../images/la_empresa/slider4.jpg', titulo:'Slider4', texto:'blablabla4'},
               ];
             }
         }
