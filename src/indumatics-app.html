@@ -15,26 +15,24 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-
-
-
+<link rel="import" href="indumatics-styles.html">
 
 <dom-module id="indumatics-app">
   <template>
-    <style include="polymer-bootstrap">
+    <style include="polymer-bootstrap indumatics-styles">
       :host {
-        --app-primary-color: #263238;
+        --app-primary-color: var(--indumatics-primary);
         --app-secondary-color: black;
         display: block;
       }
       
       app-header {
         color: #fff;
-        background-color: var(--app-primary-color);
+        background-color: var(--indumatics-header);
       }
       
       app-drawer-layout {
-        background-color: #6fb7ff;
+        background-color: var(--indumatics-blue);
       }
       
       app-header paper-icon-button {
@@ -59,25 +57,18 @@
       }
       
       .menu {
-        background-color: var(--app-primary-color);
+        background-color: var(--indumatics-header);
         height: 100%;
         overflow: hidden;
       }
-      
-      paper-menu {
-        --paper-menu-background-color: var(--app-primary-color);
-        display: inline-block;
-      }
       paper-tabs{
-        --paper-tabs-selection-bar-color: #EF5350;
+        --paper-tabs-selection-bar-color: var(--indumatics-red);
       }
     </style>
 
     <app-location route="{{route}}"></app-location>
     <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
-
     <app-drawer-layout id="adl" fullbleed narrow="{{isNarrow}}">
-
       <template is="dom-if" if={{isNarrow}}>
         <!-- Drawer content -->
         <app-drawer id="drawerMenu">
@@ -97,7 +88,6 @@
       </template>
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
-
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
             <div main-title><img class="logo" src="../images/logo_texto50x250.svg" alt="INDUMATICS S.A."></div>
@@ -111,9 +101,8 @@
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
           </app-toolbar>
         </app-header>
-
         <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="404" role="main">
-          <laempresa-view name="laempresa"></laempresa-view>
+          <laempresa-view name="laempresa" isNarrow="{{isNarrow}}"></laempresa-view>
           <productos-view name="productos"></productos-view>
           <contacto-view name="contacto"></contacto-view>
           <rrhh-view name="rrhh"></rrhh-view>
