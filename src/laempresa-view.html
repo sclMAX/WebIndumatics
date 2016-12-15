@@ -28,15 +28,20 @@
         @apply(--paper-tabs-content);
       }
       paper-card{
-
-      }
-      .footer{ 
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        padding: 10px;
-        text-align: center;
+        --paper-card-header-text:{
+          background-color: var(--indumatics-blue);
+          opacity: 0.8;
+          text-size: 20px;
+          border-radius: 0px 5px 0px 0px;
+          padding:5px;
+        }
+        --paper-card-content:{
+            background-color: var(--indumatics-blue1);
+            opacity:0.9;
+        }
+        @apply(--paper-card-header-text);
+        @apply(--paper-card-content);
+        --paper-card-header-color:var(--indumatics-red);
       }
     </style>
 
@@ -50,17 +55,10 @@
     </paper-tabs>
     <paper-card heading="{{_getCardTitulo(myCardIndex)}}" image="{{_getCardImage(myCardIndex)}}" elevation="1" animated-shadow="false">
       <div class="card-content">{{_getCardTexto(myCardIndex)}}</div>
-      <!-- <div class="card-actions">
-        
-      </div>-->
+      <!-- <div class="card-actions"></div>-->
     </paper-card>
-  </app-header>
-  <div class="footer">
-    <span>2017 by MAX</span>
-  </div>
-
+  </app-header>  
 </app-drawer-layout>
-
 </template>
 <script>
   Polymer({
