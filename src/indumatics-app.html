@@ -74,7 +74,7 @@
         <app-drawer id="drawerMenu">
           <div class="menu">
             <app-toolbar>
-              <img class="logo" src="../images/logo_texto50x250.svg" alt="INDUMATICS S.A.">
+              <img class="logo" src="{{logoPath}}" alt="INDUMATICS S.A.">
             </app-toolbar>
             <div style="height:60%; width:100%">
               <iron-selector selected="{{page}}" attr-for-selected="name" role="navigation">
@@ -90,7 +90,7 @@
       <app-header-layout has-scrolling-region>
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
-            <div main-title><img class="logo" src="../images/logo_texto50x250.svg" alt="INDUMATICS S.A."></div>
+            <div main-title><img class="logo" src="{{logoPath}}" alt="INDUMATICS S.A."></div>
             <template is="dom-if" if="[[!isNarrow]]">
               <paper-tabs selected="{{page}}" attr-for-selected="name">
                 <template is="dom-repeat" items={{secciones}}>
@@ -120,6 +120,10 @@
       is: 'indumatics-app',
 
       properties: {
+        logoPath:{
+          type: String,
+          value: '/images/logo_texto50x250.svg'
+        },
         page: {
           type: String,
           reflectToAttribute: true,
