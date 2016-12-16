@@ -55,7 +55,7 @@
     </paper-tabs>
     <paper-card heading="{{_getCardTitulo(myCardIndex)}}" image="{{_getCardImage(myCardIndex)}}" elevation="1" animated-shadow="false">
       <div class="card-content">{{_getCardTexto(myCardIndex)}}</div>
-      <!-- <div class="card-actions"></div>-->
+     <!-- <div class="card-actions"> <h1>{{contador}}</h1></div>-->
     </paper-card>
   </app-header>  
 </app-drawer-layout>
@@ -64,6 +64,9 @@
   Polymer({
     is: 'laempresa-view',
     properties: {
+      initTime:Date,
+      contador: Number,
+      tarea: Number,
       isNarrow: {
         type: Boolean,
         value: true
@@ -81,14 +84,14 @@
             },
             {
               name: 'base',
-              image: '/images/la_empresa/slider2.jpg',
-              titulo: 'Nuestra Base',
+              image: '/images/la_empresa/matriceria_01.png',
+              titulo: 'Nuestra Matricería',
               texto: 'BLABLA Bla bla bla, fiabilidad y rentabilidad a nuestros Clientes, queriendo ser una referencia de su elección, marcando como objetivo ser su proveedor de excelencia.'
             },
             {
               name: 'proceso',
-              image: '/images/la_empresa/slider3.jpg',
-              titulo: 'Nuestra Proceso',
+              image: '/images/la_empresa/extrusora_01.png',
+              titulo: 'Nuestro Proceso',
               texto: '* Adquisición de aluminio virgen en tochos\n* Corte de tochos y produción de perfiles<br>* Pintado, embalaje y stock<br>* Carga del producto y distribución'
             },
           ];
@@ -101,6 +104,10 @@
         value: 0
       }
     },
+    ready:function(){
+      this.initTime = Date.now();
+      this._updateCard();
+    },
     _getCardTitulo: function (myCardIndex) {
       return this.myCards[myCardIndex].titulo;
     },
@@ -109,6 +116,14 @@
     },
     _getCardTexto: function (myCardIndex) {
       return this.myCards[myCardIndex].texto;
+    },
+    _updateCard: function(){
+      if(this.myCardIndex < this.myCards.length - 1 ){
+        this.myCardIndex++;
+      }else{
+        this.myCardIndex =  0;
+      }
+      setTimeout(this._updateCard.bind(this), 10000 || 0);
     }
   });
 </script>
