@@ -3,7 +3,6 @@
 <link rel="import" href="indumatics-styles.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
-<link rel="import" href="../bower_components/polymer-bootstrap/polymer-bootstrap.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-box/app-box.html">
@@ -14,7 +13,7 @@
 
 <dom-module id="laempresa-view">
   <template>
-    <style include="polymer-bootstrap shared-styles indumatics-styles">
+    <style include="shared-styles indumatics-styles">
       :host {
        /* padding: 10px;*/
         display: block;
@@ -54,7 +53,8 @@
         <paper-tab name="{{item.name}}">{{item.titulo}}</paper-tab>
       </template>
     </paper-tabs>
-    <paper-card heading="{{_getCardTitulo(myCardIndex)}}" image="{{_getCardImage(myCardIndex)}}" elevation="1" animated-shadow="false">
+    <paper-card heading="{{_getCardTitulo(myCardIndex)}}" image="{{_getCardImage(myCardIndex)}}" 
+      elevation="1" animated-shadow="false" preloadImage="true" fadeImage="true">
       <div class="card-content">{{_getCardTexto(myCardIndex)}}</div>
       <!-- <div class="card-actions"> <h1>{{contador}}</h1></div>-->
     </paper-card>
@@ -65,9 +65,6 @@
   Polymer({
     is: 'laempresa-view',
     properties: {
-      initTime: Date,
-      contador: Number,
-      tarea: Number,
       isNarrow: {
         type: Boolean,
         value: true
@@ -100,7 +97,7 @@
             },
             {
               name: 'matriceria',
-              image: '/images/la_empresa/matriceria_01.png',
+              image: '/images/la_empresa/matriceria_01.jpg',
               titulo: 'Matricería',
               subtitulo: 'Desarrollo y Mantenimento Propio!',
               texto: 'BLABLA Bla bla bla, fiabilidad y rentabilidad a nuestros Clientes, queriendo ser una referencia de su elección, marcando como objetivo ser su proveedor de excelencia.'
@@ -116,7 +113,6 @@
       }
     },
     ready: function () {
-      this.initTime = Date.now();
       this._updateCard();
     },
     _getCardTitulo: function (myCardIndex) {

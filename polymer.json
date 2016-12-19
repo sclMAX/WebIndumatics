@@ -2,11 +2,12 @@
   "entrypoint": "index.html",
   "shell": "src/indumatics-app.html",
   "fragments": [
-    "src/laempresa-view.html",
-    "src/productos-view.html",
     "src/contacto-view.html",
-    "src/rrhh-view.html",
-    "src/404-view.html"
+    "src/error404-view.html",
+    "src/laempresa-view.html",
+    "src/productos-view.html",    
+    "src/rrhh-view.html"
+    
   ],
   "sourceGlobs": [
    "src/**/*",

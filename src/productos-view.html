@@ -12,6 +12,8 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
+
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="indumatics-styles.html">
 
@@ -113,10 +115,14 @@
           @apply(--paper-tabs-content);
         }
     </style>
-<iron-ajax auto url="http://www.indumatics.com.ar/api/perfiles/index.php" handle-as="json" last-response="{{Perfiles}}"></iron-ajax>
-<iron-ajax auto url="http://www.indumatics.com.ar/api/lineas/index.php" handle-as="json" last-response="{{Lineas}}"></iron-ajax>
+<iron-ajax auto url="http://www.indumatics.com.ar/api/perfiles/index.php" handle-as="json" loading="{{loading}}" last-response="{{Perfiles}}"></iron-ajax>
+<iron-ajax auto url="http://www.indumatics.com.ar/api/lineas/index.php" handle-as="json" loading="{{loading}}" last-response="{{Lineas}}"></iron-ajax>
 <app-drawer-layout narrow="{{isNarrow}}"></app-drawer-layout>
-<paper-scroll-header-panel>
+<paper-scroll-header-panel>  
+  <template is="dom-if" if={{loading}}>
+    <span>Buscando lineas disponible</span>
+    <paper-progress value="10" indeterminate="true" style="width:100%;"></paper-progress>
+  </template>
   <paper-toolbar class="">
     <div>
       <paper-input label="Buscar" type="search" class="top" value="{{vBuscar}}" placeholder="Buscar perfil..." autosave="test"
@@ -141,6 +147,7 @@
       </paper-tabs>
     </div>
   </paper-toolbar>
+   
 <div class="content centrado">
   <template is="dom-repeat" items="{{Perfiles.result}}" filter="{{isLinea(selLinea, vBuscar)}}" observe="idLinea idPerfil">
     <paper-card heading="{{item.idPerfil}}" image="{{_getImagen(item)}}" elevation="1" animated-shadow="true" fadeImage="true"

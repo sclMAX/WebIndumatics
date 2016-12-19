@@ -64,7 +64,6 @@
         --paper-tabs-selection-bar-color: var(--indumatics-red);
       }
     </style>
-
     <app-location route="{{route}}"></app-location>
     <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
     <app-drawer-layout id="adl" fullbleed narrow="{{isNarrow}}">
@@ -91,7 +90,7 @@
           <app-toolbar>
             <div main-title><img class="logo" src="{{logoPath}}" alt="INDUMATICS S.A."></div>
             <template is="dom-if" if="[[!isNarrow]]">
-              <paper-tabs selected="{{page}}" attr-for-selected="name">
+              <paper-tabs selected="{{page}}" attr-for-selected="name" role="navigation">
                 <template is="dom-repeat" items={{secciones}}>
                   <paper-tab name="{{item.name}}">{{item.titulo}}</paper-tab>
                 </template>
@@ -100,12 +99,12 @@
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
           </app-toolbar>
         </app-header>
-        <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="404" role="main">
-          <laempresa-view name="laempresa" isNarrow="{{isNarrow}}"></laempresa-view>
+        <iron-pages selected="{{page}}" attr-for-selected="name" fallback-selection="404" role="main">
+          <laempresa-view name="laempresa"></laempresa-view>
           <productos-view name="productos"></productos-view>
           <contacto-view name="contacto"></contacto-view>
           <rrhh-view name="rrhh"></rrhh-view>
-          <my-view404 name="404">
+          <my-view404 name="error404">
             </404-view>
         </iron-pages>
       </app-header-layout>   
@@ -126,6 +125,7 @@
         },
         page: {
           type: String,
+          value: 'laempresa',
           reflectToAttribute: true,
           observer: '_pageChanged'
         },
@@ -144,7 +144,9 @@
       observers: [
         '_routePageChanged(routeData.page)'
       ],
-
+      ready: function(){
+        this.page ='laempresa';
+      },
       _routePageChanged: function(page) {
         this.page = page || 'laempresa';
       },
@@ -156,7 +158,7 @@
       },
 
       _showPage404: function() {
-        this.page = '404';
+        this.page = 'error404';
       },
 
       _MenuTab: function(){
