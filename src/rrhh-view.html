@@ -1,9 +1,15 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/gold-email-input/gold-email-input.html">
+<link rel="import" href="../bower_components/gold-phone-input/gold-phone-input.html">
+<link rel="import" href="indumatics-styles.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="rrhh-view">
   <template>
-    <style include="shared-styles">
+    <style include="shared-styles indumatics-styles">
       :host {
         display: block;
 
@@ -11,17 +17,35 @@
       }
     </style>
 
-    <div class="card">
-      <div class="circle">4</div>
-      <h1>Recursos Humanos</h1>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-      <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
-    </div>
-  </template>
+<div class="card" style="width: 80%; margin: auto">
+<h3>Quieres trabajar con nosotros...</h3>
+<small>Ingresa tus datos de contacto así como un resumen de tus capacitaciones y toda la información que creas relevante.</small>
+<form is="iron-form" id="{{form}}" method="post" action="http://www.indumatics.com.ar/forms.php">
+  <paper-input name="nombre" label="Nombre" error-message="Por favor ingrese su Nombre!" auto-validate required></paper-input>
+  <paper-input name="apellido" label="Apellido" error-message="Por favor ingrese su Apellido!" auto-validate required></paper-input>
+  <gold-email-input name="email" label="E-mail" error-message="Ingrese un email valido!" autocomplete="on" auto-validate required></gold-email-input>
+  <paper-textarea name="info" label="Información" error-message="Ingrese informacion relevante!" rows="3" auto-validate required></paper-textarea>
+  <br>
+  <paper-button raised disabled$="{{_isValid(form)}}" onclick="{{_submit(form)}}">Enviar</paper-button>
+</form>
 
-  <script>
-    Polymer({
-      is: 'rrhh-view'
-    });
-  </script>
+</div>
+</template>
+
+<script>
+  Polymer({
+    is: 'rrhh-view',
+
+    _isValid: function(form){
+      console.log('form:', form);
+      return form.validate();
+    },
+    _submit: function(form){
+      if(form.validate()){
+        console.log('ENVIADO FORM...');
+      }
+    }
+
+  });
+</script>
 </dom-module>

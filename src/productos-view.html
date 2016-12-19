@@ -11,7 +11,7 @@
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
-
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="indumatics-styles.html">
 
@@ -76,70 +76,84 @@
             --paper-fab-background:var(--indumatics-primary);
            
       }
-    paper-scroll-header-panel {
-      position: absolute;
-      top: 60px;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: var(--indumatics-blue, #eee);;
-    }
-    paper-toolbar {
-      background-color: var(--indumatics-header);
-    }
-    paper-toolbar .title {
-      margin: 0 8px;
-    }
-    paper-scroll-header-panel .content {
-      padding: 8px;
-    }
-    paper-icon-button {
-      --paper-icon-button-ink-color: white;
-    }
-    .spacer {
-      @apply(--layout-flex);
-    }
-    paper-input{
-      --paper-input-container-color:grey;
-      --paper-input-container-focus-color:var(--indumatics-blue1);
-      --paper-input-container-input-color:var(--indumatics-blue1);
-    }
-      paper-tabs{
-        --paper-tabs-selection-bar-color:var(--indumatics-red);     
-        --paper-tabs-content:{
-          color:#ffffec;
-          font-size: 20px;
-        }
-        @apply(--paper-tabs-content);
+      paper-scroll-header-panel {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: var(--indumatics-blue, #eee);;
       }
-
+      paper-toolbar {
+        background-color: var(--indumatics-header);
+      }
+      paper-toolbar .title {
+        margin: 0 8px;
+      }
+      paper-scroll-header-panel .content {
+        padding: 8px;
+      }
+      paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+      .spacer {
+        @apply(--layout-flex);
+      }
+      paper-input{
+        --paper-input-container-color:grey;
+        --paper-input-container-focus-color:var(--indumatics-blue1);
+        --paper-input-container-input-color:var(--indumatics-blue1);
+      }
+        paper-tabs{
+          --paper-tabs-selection-bar-color:var(--indumatics-red);     
+          --paper-tabs-content:{
+            color:#ffffec;
+            font-size: 20px;
+          }
+          @apply(--paper-tabs-content);
+        }
     </style>
 <iron-ajax auto url="http://www.indumatics.com.ar/api/perfiles/index.php" handle-as="json" last-response="{{Perfiles}}"></iron-ajax>
 <iron-ajax auto url="http://www.indumatics.com.ar/api/lineas/index.php" handle-as="json" last-response="{{Lineas}}"></iron-ajax>
 <app-drawer-layout narrow="{{isNarrow}}"></app-drawer-layout>
 <paper-scroll-header-panel>
-  <paper-toolbar>
-    <paper-input label="Buscar" type="search" value="{{vBuscar}}" placeholder="Buscar perfil..." autosave="test" results="5"></paper-input>
+  <paper-toolbar class="">
+    <div>
+      <paper-input label="Buscar" type="search" class="top" value="{{vBuscar}}" placeholder="Buscar perfil..." autosave="test"
+        results="5"></paper-input>
+    </div>
+    <div style="width: 100%">
+      <paper-tabs selected="{{selLinea}}" class="top fit" scrollable="{{isNarrow}}" attr-for-selected="name" iron-select="{{_SelLinea(selLinea)}}">
+        <template is="dom-if" if={{Lineas}}>
+          <paper-tab name="-1">Todas las Lineas</paper-tab>
+        </template>
+        <template is="dom-repeat" items={{Lineas.result}}>
+          <paper-tab name="{{item.id}}">
+            {{item.linea}}
+            <div>
+              <a href="/catalogos/Linea_{{item.linea}}.pdf" tabindex="-1" target="_blank" style="color:white;">
+                <paper-icon-button id="t{{item.id}}" icon="icons:cloud-download" alt="Descargar PDF"></paper-icon-button>
+              </a>
+              <paper-tooltip for="t{{item.id}}" position="left" offset="0">Descargar PDF</paper-tooltip>
+            </div>
+          </paper-tab>
+        </template>
+      </paper-tabs>
+    </div>
   </paper-toolbar>
-  <paper-tabs selected="{{selLinea}}" scrollable="{{isNarrow}}" attr-for-selected="name" iron-select="{{_SelLinea(selLinea)}}">
-    <paper-tab name="-1">Todas las Lineas</paper-tab>
-    <template is="dom-repeat" items={{Lineas.result}}>
-      <paper-tab name="{{item.id}}">{{item.linea}}</paper-tab>
-    </template>
-  </paper-tabs>
-  <div class="content centrado">
-    <template is="dom-repeat" items="{{Perfiles.result}}" filter="{{isLinea(selLinea, vBuscar)}}" observe="idLinea idPerfil">
-      <paper-card heading="{{item.idPerfil}}" image="{{_getImagen(item)}}" elevation="1" animated-shadow="true" fadeImage="true"
-        preloadImage="true">
-        <div class="card-content">
-          <p style="min-height: 50px"><strong>{{_getDescripcion(item)}}</strong><br></p>
+<div class="content centrado">
+  <template is="dom-repeat" items="{{Perfiles.result}}" filter="{{isLinea(selLinea, vBuscar)}}" observe="idLinea idPerfil">
+    <paper-card heading="{{item.idPerfil}}" image="{{_getImagen(item)}}" elevation="1" animated-shadow="true" fadeImage="true"
+      preloadImage="true">
+      <div class="card-content">
+        <p style="min-height: 50px"><strong>{{_getDescripcion(item)}}</strong><br></p>
 <small>Largo: {{item.largo}} mm</small> <br>
 <small>Peso: {{item.pxm}} Kg/m</small><br>
 <small>Paquete: {{item.bxp}} barras</small>
 </div>
-<div class="card-actions">
+<!--<div class="card-actions">
   <paper-fab icon="add" elevation="1" mini="true" title="Agregar a pedido"></paper-fab>
-</div>
+</div>-->
 </paper-card>
 </template>
 </div>
@@ -163,7 +177,7 @@
         reflectToAttribute: true,
         notify: true
       },
-      Perfiles:{
+      Perfiles: {
         type: Object,
         value: null,
         notify: true
@@ -178,12 +192,12 @@
     },
     isLinea: function (selLinea, vBuscar) {
       return function (item) {
-        var tmpItem = (selLinea > -1)?(item.idLinea == selLinea):true;
+        var tmpItem = (selLinea > -1) ? (item.idLinea == selLinea) : true;
         if (!vBuscar) {
           return tmpItem;
         } else {
           vBuscar = vBuscar.toLowerCase();
-          return (tmpItem && ((item.idPerfil.toLowerCase().indexOf(vBuscar) > -1)||(item.descripcion.toLowerCase().indexOf(vBuscar)>-1)));
+          return (tmpItem && ((item.idPerfil.toLowerCase().indexOf(vBuscar) > -1) || (item.descripcion.toLowerCase().indexOf(vBuscar) > -1)));
         }
       }
     },

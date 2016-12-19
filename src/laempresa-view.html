@@ -28,6 +28,7 @@
         @apply(--paper-tabs-content);
       }
       paper-card{
+        --paper-card-header-color: white;
         --paper-card-header-text:{
           background-color: var(--indumatics-blue);
           opacity: 0.8;
@@ -38,10 +39,10 @@
         --paper-card-content:{
             background-color: var(--indumatics-blue1);
             opacity:0.9;
-        }
+        }        
         @apply(--paper-card-header-text);
         @apply(--paper-card-content);
-        --paper-card-header-color:var(--indumatics-red);
+        
       }
     </style>
 
@@ -55,16 +56,16 @@
     </paper-tabs>
     <paper-card heading="{{_getCardTitulo(myCardIndex)}}" image="{{_getCardImage(myCardIndex)}}" elevation="1" animated-shadow="false">
       <div class="card-content">{{_getCardTexto(myCardIndex)}}</div>
-     <!-- <div class="card-actions"> <h1>{{contador}}</h1></div>-->
+      <!-- <div class="card-actions"> <h1>{{contador}}</h1></div>-->
     </paper-card>
-  </app-header>  
+  </app-header>
 </app-drawer-layout>
 </template>
 <script>
   Polymer({
     is: 'laempresa-view',
     properties: {
-      initTime:Date,
+      initTime: Date,
       contador: Number,
       tarea: Number,
       isNarrow: {
@@ -79,21 +80,31 @@
             {
               name: 'vision',
               image: '/images/la_empresa/slider4.jpg',
-              titulo: 'Nuestra Visión',
+              titulo: 'Visión',
+              subtitulo: 'Nuestra Visión',
               texto: 'Ofrecer en toda la Argentina perfiles de aluminio, que den seguridad, fiabilidad y rentabilidad a nuestros Clientes, queriendo ser una referencia de su elección, marcando como objetivo ser su proveedor de excelencia.'
             },
             {
-              name: 'base',
-              image: '/images/la_empresa/matriceria_01.png',
-              titulo: 'Nuestra Matricería',
+              name: 'materia_prima',
+              image: '/images/la_empresa/materia_prima_01.jpg',
+              titulo: 'Materia Prima',
+              subtitulo: '100% Aluminio Virgen!',
               texto: 'BLABLA Bla bla bla, fiabilidad y rentabilidad a nuestros Clientes, queriendo ser una referencia de su elección, marcando como objetivo ser su proveedor de excelencia.'
             },
             {
               name: 'proceso',
               image: '/images/la_empresa/extrusora_01.jpg',
-              titulo: 'Nuestro Proceso',
+              titulo: 'Proceso',
+              subtitulo: 'Totalmente Automatizado!',
               texto: '* Adquisición de aluminio virgen en tochos\n* Corte de tochos y produción de perfiles<br>* Pintado, embalaje y stock<br>* Carga del producto y distribución'
             },
+            {
+              name: 'matriceria',
+              image: '/images/la_empresa/matriceria_01.png',
+              titulo: 'Matricería',
+              subtitulo: 'Desarrollo y Mantenimento Propio!',
+              texto: 'BLABLA Bla bla bla, fiabilidad y rentabilidad a nuestros Clientes, queriendo ser una referencia de su elección, marcando como objetivo ser su proveedor de excelencia.'
+            }
           ];
         }
       },
@@ -104,12 +115,12 @@
         value: 0
       }
     },
-    ready:function(){
+    ready: function () {
       this.initTime = Date.now();
       this._updateCard();
     },
     _getCardTitulo: function (myCardIndex) {
-      return this.myCards[myCardIndex].titulo;
+      return this.myCards[myCardIndex].subtitulo;
     },
     _getCardImage: function (myCardIndex) {
       return this.myCards[myCardIndex].image;
@@ -117,11 +128,11 @@
     _getCardTexto: function (myCardIndex) {
       return this.myCards[myCardIndex].texto;
     },
-    _updateCard: function(){
-      if(this.myCardIndex < this.myCards.length - 1 ){
+    _updateCard: function () {
+      if (this.myCardIndex < this.myCards.length - 1) {
         this.myCardIndex++;
-      }else{
-        this.myCardIndex =  0;
+      } else {
+        this.myCardIndex = 0;
       }
       setTimeout(this._updateCard.bind(this), 10000 || 0);
     }
