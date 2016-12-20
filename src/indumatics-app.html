@@ -64,106 +64,110 @@
         --paper-tabs-selection-bar-color: var(--indumatics-red);
       }
     </style>
-    <app-location route="{{route}}"></app-location>
-    <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
-    <app-drawer-layout id="adl" fullbleed narrow="{{isNarrow}}">
-      <template is="dom-if" if={{isNarrow}}>
-        <!-- Drawer content -->
-        <app-drawer id="drawerMenu">
-          <div class="menu">
-            <app-toolbar>
-              <img class="logo" src="{{logoPath}}" alt="INDUMATICS S.A.">
-            </app-toolbar>
-            <div style="height:60%; width:100%">
-              <iron-selector selected="{{page}}" attr-for-selected="name" role="navigation">
-                <template is="dom-repeat" items={{secciones}}>
-                  <paper-button style="width:100%" name="{{item.name}}" on-tap="_MenuTab"><span style="color:#ffffff">{{item.titulo}}</span></paper-button><br>
-                </template>
-                </iron-seelector>
-            </div>
-          </div>
-        </app-drawer>
+<app-location route="{{route}}"></app-location>
+<app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+<app-drawer-layout id="adl" fullbleed narrow="{{isNarrow}}">
+  <template is="dom-if" if={{isNarrow}}>
+    <!-- Drawer content -->
+    <app-drawer id="drawerMenu">
+      <div class="menu">
+        <app-toolbar>
+          <img class="logo" src="{{logoPath}}" alt="INDUMATICS S.A.">
+        </app-toolbar>
+        <div style="height:60%; width:100%">
+<iron-selector selected="[[page]]" attr-for-selected="name" role="navigation">
+  <template is="dom-repeat" items={{secciones}}>
+    <paper-button style="width:100%" name="{{item.name}}" on-tap="{{_MenuTab(this)}}"><span style="color:#ffffff">{{item.titulo}}</span>
+</paper-button><br>
+</template>
+</iron-seelector>
+</div>
+</div>
+</app-drawer>
+</template>
+<!-- Main content -->
+<app-header-layout has-scrolling-region>
+  <app-header condenses reveals effects="waterfall">
+    <app-toolbar>
+      <div main-title><img class="logo" src="{{logoPath}}" alt="INDUMATICS S.A."></div>
+      <template is="dom-if" if="[[!isNarrow]]">
+        <paper-tabs selected="{{page}}" attr-for-selected="name" role="navigation">
+          <template is="dom-repeat" items={{secciones}}>
+            <paper-tab name="{{item.name}}">{{item.titulo}}</paper-tab>
+          </template>
+        </paper-tabs>
       </template>
-      <!-- Main content -->
-      <app-header-layout has-scrolling-region>
-        <app-header condenses reveals effects="waterfall">
-          <app-toolbar>
-            <div main-title><img class="logo" src="{{logoPath}}" alt="INDUMATICS S.A."></div>
-            <template is="dom-if" if="[[!isNarrow]]">
-              <paper-tabs selected="{{page}}" attr-for-selected="name" role="navigation">
-                <template is="dom-repeat" items={{secciones}}>
-                  <paper-tab name="{{item.name}}">{{item.titulo}}</paper-tab>
-                </template>
-              </paper-tabs>
-            </template>
-            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-          </app-toolbar>
-        </app-header>
-        <iron-pages selected="{{page}}" attr-for-selected="name" fallback-selection="404" role="main">
-          <laempresa-view name="laempresa"></laempresa-view>
-          <productos-view name="productos"></productos-view>
-          <contacto-view name="contacto"></contacto-view>
-          <rrhh-view name="rrhh"></rrhh-view>
-          <my-view404 name="error404">
-            </404-view>
-        </iron-pages>
-      </app-header-layout>   
-      <footer>   
-        <div class="footer"><small>2017 developed by MAX</small></div>
-      </footer>
-    </app-drawer-layout>
-  </template>
+      <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+    </app-toolbar>
+  </app-header>
+  <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="error404" role="main">
+    <laempresa-view name="laempresa"></laempresa-view>
+    <productos-view name="productos"></productos-view>
+    <contacto-view name="contacto"></contacto-view>
+    <rrhh-view name="rrhh"></rrhh-view>
+    <error404-view name="error404"></error404-view>
+  </iron-pages>
+</app-header-layout>
+<footer>
+  <div class="footer"><small>2017 developed by MAX</small></div>
+</footer>
+</app-drawer-layout>
+</template>
 
-  <script>
-    Polymer({
-      is: 'indumatics-app',
+<script>
+  Polymer({
+    is: 'indumatics-app',
 
-      properties: {
-        logoPath:{
-          type: String,
-          value: '/images/logo_texto50x250.svg'
-        },
-        page: {
-          type: String,
-          value: 'laempresa',
-          reflectToAttribute: true,
-          observer: '_pageChanged'
-        },
-          secciones: {
-            type: Array,
-            value: function() {
-              return [
-                {titulo:'LA EMPRESA', name:'laempresa'},
-                {titulo:'PRODUCTOS', name:'productos'},
-                {titulo:'CONTACTO', name:'contacto'},
-                {titulo:'RRHH', name:'rrhh'}
-              ];
-        }}
+    properties: {
+      logoPath: {
+        type: String,
+        value: '/images/logo_texto50x250.svg'
       },
-
-      observers: [
-        '_routePageChanged(routeData.page)'
-      ],
-      ready: function(){
-        this.page ='laempresa';
+      page: {
+        type: String,
+        reflectToAttribute: true,
+        observer: '_pageChanged'
       },
-      _routePageChanged: function(page) {
-        this.page = page || 'laempresa';
-      },
-
-      _pageChanged: function(page) {
-        // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl(page + '-view.html');
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
-      },
-
-      _showPage404: function() {
-        this.page = 'error404';
-      },
-
-      _MenuTab: function(){
-        this.$.adl.drawer.toggle();
+      secciones: {
+        type: Array,
+        value: function () {
+          return [
+            { titulo: 'LA EMPRESA', name: 'laempresa' },
+            { titulo: 'PRODUCTOS', name: 'productos' },
+            { titulo: 'CONTACTO', name: 'contacto' },
+            { titulo: 'RRHH', name: 'rrhh' }
+          ];
+        }
       }
-    });
-  </script>
+    },
+
+    observers: [
+      '_routePageChanged(routeData.page)'
+    ],
+    ready: function () {
+      this.page = 'laempresa';
+    },
+    _routePageChanged: function (page) {
+      this.page = page || 'laempresa';
+    },
+
+    _pageChanged: function (page) {
+      // Load page import on demand. Show 404 page if fails
+      var resolvedPageUrl = this.resolveUrl(page + '-view.html');
+      this.importHref(resolvedPageUrl, null, this._showPage404, true);
+    },
+
+    _showPage404: function () {
+      this.page = 'error404';
+    },
+
+    _MenuTab: function (el) {
+      this.$.adl.drawer.toggle();
+      el.addEventListener('transitionend', function (e) {
+        location.href = '/admin/features/new';
+      });
+
+    }
+  });
+</script>
 </dom-module>
